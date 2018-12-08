@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- My -->
+    <string-array name="audio_encoder_entries">
+        <item>AAC</item>
+        <item>AAC_ELD</item>
+        <item>AMR_NB</item>
+        <item>AMR_WB</item>
+        <item>HE_AAC</item>
+        <item>VORBIS</item>
+    </string-array>
+
+    <string-array name="audio_encoder_entry_values">
+        <item>3</item>
+        <item>5</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+    </string-array>
+</resources>
