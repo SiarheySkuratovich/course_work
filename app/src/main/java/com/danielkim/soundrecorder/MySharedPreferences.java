@@ -11,9 +11,9 @@ import android.preference.PreferenceManager;
 public class MySharedPreferences {
     private static String PREF_HIGH_QUALITY = "pref_high_quality";
     private static String ENCODER = "encoder";
-    private static int VORBIS = 6;
-    private static int WEBM  = 9;
-    private static int THREE_GP = 1;
+    private static String VORBIS = "6";
+    private static String WEBM  = "9";
+    private static String THREE_GP = "1";
 
 
     public static void setPrefHighQuality(Context context, boolean isEnabled) {
@@ -40,7 +40,7 @@ public class MySharedPreferences {
         return preferences.getString(ENCODER, null);
     }
 
-    public static int getOutputFormat(Context context) {
+    public static String getOutputFormat(Context context) {
         if (getAudioEncoder(context).equals(VORBIS)) {
             return WEBM;
         } else {

@@ -45,12 +45,12 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
 
-        ListPreference outputFormatPref = (ListPreference) findPreference(getResources().getString(R.string.key_format));
+        ListPreference outputFormatPref = (ListPreference) findPreference(getResources().getString(R.string.key_encoder));
         outputFormatPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                MySharedPreferences.setOutputFormat(getActivity(), (String) newValue);
-                Toast.makeText(getActivity(), "just changed output format", Toast.LENGTH_LONG).show();
+                MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
+                Toast.makeText(getActivity(), "just changed audio encoder", Toast.LENGTH_LONG).show();
                 return true;
             }
         });
