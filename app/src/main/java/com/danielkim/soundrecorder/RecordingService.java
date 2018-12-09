@@ -114,7 +114,13 @@ public class RecordingService extends Service {
             count++;
 
             mFileName = getString(R.string.default_file_name)
-                    + "_" + (mDatabase.getCount() + count) + ".mp4";
+                    + "_" + (mDatabase.getCount() + count);
+            if(MySharedPreferences.getOutputFormat(this).equals("WEBM")) {
+                mFileName += ".ogg";
+            } else {
+                mFileName += ".3gp";
+            }
+
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
             mFilePath += "/SoundRecorder/" + mFileName;
 
