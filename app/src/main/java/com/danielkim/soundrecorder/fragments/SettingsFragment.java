@@ -50,7 +50,7 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
-                Toast.makeText(getActivity(), "just changed audio encoder", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), MySharedPreferences.getAudioEncoder(getActivity()), Toast.LENGTH_LONG).show();
                 return true;
             }
         });

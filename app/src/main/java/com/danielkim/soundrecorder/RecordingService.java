@@ -83,13 +83,13 @@ public class RecordingService extends Service {
 
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setAudioEncoder(Integer.parseInt(MySharedPreferences.getAudioEncoder(this)));
-        mRecorder.setOutputFormat(Integer.parseInt(MySharedPreferences.getOutputFormat(this)));
         mRecorder.setOutputFile(mFilePath);
         mRecorder.setAudioChannels(1);
         if (
                 MySharedPreferences.getPrefHighQuality(this)) {
-            mRecorder.setAudioSamplingRate(44100);
+                mRecorder.setAudioSamplingRate(44100);
             mRecorder.setAudioEncodingBitRate(192000);
         }
 
@@ -114,13 +114,7 @@ public class RecordingService extends Service {
             count++;
 
             mFileName = getString(R.string.default_file_name)
-                    + "_" + (mDatabase.getCount() + count);
-            if(MySharedPreferences.getOutputFormat(this).equals("WEBM")) {
-                mFileName += ".ogg";
-            } else {
-                mFileName += ".3gp";
-            }
-
+                    + "_" + (mDatabase.getCount() + count) + ".3gp";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
             mFilePath += "/SoundRecorder/" + mFileName;
 
