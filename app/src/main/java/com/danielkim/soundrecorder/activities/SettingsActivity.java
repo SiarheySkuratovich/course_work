@@ -1,12 +1,8 @@
 package com.danielkim.soundrecorder.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
@@ -48,26 +44,35 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
 
     public void setAudioSamplingSeekBar(Context context, String usersChosenFormat) {
         AudioSamplingSeekBarFragment audioSamplingSeekBarFragment = new AudioSamplingSeekBarFragment();
-
         switch (Integer.parseInt(usersChosenFormat)) {
             case AAC:
-                if(audioSamplingSeekBarFragment.isAdded()) {
-                    audioSamplingSeekBarFragment.onDestroy();
-                } else {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .add(audioSamplingSeekBarFragment,"audioSamplingSeekBarFragment")
-                            .commit();
-
-                }
+                embedSeekBarWithFormat(audioSamplingSeekBarFragment, AAC);
                 break;
             case AAC_ELD:
+                embedSeekBarWithFormat(audioSamplingSeekBarFragment, AAC_ELD);
                 break;
             case AMR_NB:
+                embedSeekBarWithFormat(audioSamplingSeekBarFragment, AMR_NB);
                 break;
             case AMR_WB:
+                embedSeekBarWithFormat(audioSamplingSeekBarFragment, AMR_WB);
                 break;
             case HE_AAC:
+                embedSeekBarWithFormat(audioSamplingSeekBarFragment, HE_AAC);
                 break;
         }
+    }
+    private void embedSeekBarWithFormat(AudioSamplingSeekBarFragment audioSamplingSeekBarFragment, int format) {
+        Bundle bundle = new Bundle();
+        if (audioSamplingSeekBarFragment.isAdded()) {
+            audioSamplingSeekBarFragment.onDestroy();
+        } else {
+            bundle.putInt("format", format);
+            audioSamplingSeekBarFragment.setArguments(bundle);
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(audioSamplingSeekBarFragment, "audioSamplingSeekBarFragment")
+                    .commit();
+        }
+    }
 }
