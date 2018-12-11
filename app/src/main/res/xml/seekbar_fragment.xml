@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SeekBarPreference
+        android:key="sampling"
+        android:title="Set Audio Sampling Rate"
+        android:summary="Summary."
+        android:max="48000"
+        android:defaultValue="44100"/>
+</PreferenceScreen>

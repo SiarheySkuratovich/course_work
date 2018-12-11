@@ -15,10 +15,4 @@
         android:key="@string/key_encoder"
         android:title="Set audio encoder"
         />
-    <SeekBarPreference
-        android:key="sampling"
-        android:title="Set Audio Sampling Rate"
-        android:summary="Summary."
-        android:max="5"
-        android:defaultValue="44100"/>
 </PreferenceScreen>

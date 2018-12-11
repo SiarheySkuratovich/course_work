@@ -1,8 +1,13 @@
 package com.danielkim.soundrecorder;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.danielkim.soundrecorder.fragments.AudioSamplingSeekBarFragment;
+
+import static android.media.MediaRecorder.AudioEncoder.*;
 
 /**
  * Created by Daniel on 5/22/2017.
