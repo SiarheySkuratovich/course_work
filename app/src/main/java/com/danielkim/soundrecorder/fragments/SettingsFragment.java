@@ -50,9 +50,25 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
-                Toast.makeText(getActivity(), MySharedPreferences.getAudioEncoder(getActivity()), Toast.LENGTH_LONG).show();
+                embedSeekBarWithFormat((String) newValue);
                 return true;
             }
         });
+    }
+    public void embedSeekBarWithFormat(String format) {
+        AudioSamplingSeekBarFragment audioSamplingSeekBarFragment = new AudioSamplingSeekBarFragment();
+        Bundle bundle = new Bundle();
+        if (audioSamplingSeekBarFragment.isAdded()) {
+            audioSamplingSeekBarFragment.onDestroy();
+        } else {
+            bundle.putInt("format", Integer.parseInt(format));
+            audioSamplingSeekBarFragment.setArguments(bundle);
+
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.seekBar_container, audioSamplingSeekBarFragment)
+                    .commit();
+        }
     }
 }
