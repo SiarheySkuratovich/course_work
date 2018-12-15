@@ -9,10 +9,10 @@
         android:title="@string/pref_about_title"
         android:summary="@string/pref_about_desc"/>
     <ListPreference
-        android:defaultValue="3"
-        android:entries="@array/audio_encoder_entries"
-        android:entryValues="@array/audio_encoder_entry_values"
         android:key="@string/key_encoder"
         android:title="Set audio encoder"
+        android:entries="@array/audio_encoder_entries"
+        android:entryValues="@array/audio_encoder_entry_values"
+        android:defaultValue="3"
         />
 </PreferenceScreen>

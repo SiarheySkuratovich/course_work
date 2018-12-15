@@ -42,17 +42,17 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.preferences_container, new SettingsFragment())
+                .add(R.id.preferences_container, new SettingsFragment())
                 .commit();
-        AudioSamplingSeekBarFragment audioSamplingSeekBarFragment = new AudioSamplingSeekBarFragment();
+
 
         getFragmentManager()
                 .beginTransaction()
-                .add(R.id.seekBar_container, audioSamplingSeekBarFragment)
+                .add(R.id.seekBar_container, new AudioSamplingSeekBarFragment(), AudioSamplingSeekBarFragment.TAG)
                 .commit();
-        Toast.makeText(this, "!!!!!!!!!!", Toast.LENGTH_LONG).show();
-        if(audioSamplingSeekBarFragment.isAdded()) {
-;
-        }
+
+        /*if(audioSamplingSeekBarFragment.isAdded()) {
+            Toast.makeText(this, "!!!!!!!!!!", Toast.LENGTH_LONG).show();
+        }*/
     }
 }
