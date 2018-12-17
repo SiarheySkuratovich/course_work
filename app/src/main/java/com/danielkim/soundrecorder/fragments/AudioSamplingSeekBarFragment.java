@@ -1,6 +1,7 @@
 package com.danielkim.soundrecorder.fragments;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.danielkim.soundrecorder.MySharedPreferences;
 import com.danielkim.soundrecorder.R;
 
 import java.util.zip.Inflater;
@@ -22,14 +24,12 @@ import static android.media.MediaRecorder.AudioEncoder.*;
 public class AudioSamplingSeekBarFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
     public static final String STATE_FORMAT = "format";
+    private final int DEFAULT_FORMAT = AAC;
     private int format;
     private int seekBarInitVal;
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_FORMAT, format);
-        super.onSaveInstanceState(outState);
-    }
+    SeekBar seekBar;
+    TextView textProgress;
+    private int seekBarProgress;
 
     @Nullable
     @Override
@@ -40,15 +40,52 @@ public class AudioSamplingSeekBarFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null) {
-            format = savedInstanceState.getInt(STATE_FORMAT);
-        } else  if (getArguments() != null){
+
+        setAudioEncoder();
+
+        seekBar = (SeekBar)view.findViewById(R.id.sample_rate_seek_bar);
+        textProgress = (TextView) view.findViewById(R.id.progress);
+
+        setSeekBarRange();
+        setSeekBarProgress();
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                i += seekBarInitVal;
+                textProgress.setText("" + i + " Hz");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                seekBarProgress = seekBar.getProgress();
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MySharedPreferences.setSamplingRate(getActivity(), seekBarProgress);
+    }
+
+    private void setAudioEncoder() {
+        if (getArguments() != null){
             format = getArguments().getInt(STATE_FORMAT);
+        } else if (MySharedPreferences.getAudioEncoder(getActivity()) != null){
+            format = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
         } else {
-            format = AAC;
+            format = DEFAULT_FORMAT;
         }
-        SeekBar seekBar = (SeekBar)view.findViewById(R.id.sample_rate_seek_bar);
-        final TextView textProgress = (TextView) view.findViewById(R.id.progress);
+    }
+
+    private void setSeekBarRange() {
         switch (format) {
             case AAC:
                 seekBarInitVal = 8000;
@@ -71,27 +108,17 @@ public class AudioSamplingSeekBarFragment extends Fragment {
                 seekBar.setMax(40000);
                 break;
         }
-        textProgress.setText("" + seekBarInitVal + " Hz");
-
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                i += seekBarInitVal;
-                textProgress.setText("" + i + " Hz");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
-
+    private void setSeekBarProgress() {
+        seekBarProgress = MySharedPreferences.getSamplingRate(getActivity());
+        if (format != AMR_NB || format != AMR_WB) {
+            if (seekBarProgress != -1) {
+                seekBar.setProgress(seekBarProgress);
+                textProgress.setText("" + seekBarProgress + " Hz");
+            } else {
+                textProgress.setText("" + seekBarInitVal + " Hz");
+            }
+        }
+    }
 }

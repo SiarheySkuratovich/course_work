@@ -16,6 +16,7 @@ import static android.media.MediaRecorder.AudioEncoder.*;
 public class MySharedPreferences {
     private static String PREF_HIGH_QUALITY = "pref_high_quality";
     private static String ENCODER = "encoder";
+    private static String SAMPLING_RATE = "sampling_rate";
 
 
 
@@ -42,5 +43,18 @@ public class MySharedPreferences {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(ENCODER, null);
     }
+
+    public static void setSamplingRate(Context context, int samplingRate) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(SAMPLING_RATE, samplingRate);
+        editor.apply();
+    }
+
+    public static int getSamplingRate(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt(SAMPLING_RATE, -1);
+    }
+
 
 }

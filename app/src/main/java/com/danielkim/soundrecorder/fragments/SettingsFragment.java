@@ -69,14 +69,12 @@ public class SettingsFragment extends PreferenceFragment {
             FragmentTransaction transaction = manager.beginTransaction();
             AudioSamplingSeekBarFragment fragment = (AudioSamplingSeekBarFragment) manager.findFragmentByTag(AudioSamplingSeekBarFragment.TAG);
             if (manager.findFragmentByTag(AudioSamplingSeekBarFragment.TAG) != null) {
-                Toast.makeText(getActivity(), "!!!!!!!!!!", Toast.LENGTH_LONG).show();
                 transaction.remove(fragment);
             }
             AudioSamplingSeekBarFragment newFragment = new AudioSamplingSeekBarFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(AudioSamplingSeekBarFragment.STATE_FORMAT, Integer.parseInt(format));
             newFragment.setArguments(bundle);
-            //newFragment.getArguments().getInt(AudioSamplingSeekBarFragment.STATE_FORMAT);
             transaction.add(R.id.seekBar_container, newFragment, AudioSamplingSeekBarFragment.TAG);
             transaction.commit();
         } catch (Exception e) {

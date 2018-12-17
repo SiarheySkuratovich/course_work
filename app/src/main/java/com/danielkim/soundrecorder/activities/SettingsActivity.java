@@ -29,7 +29,6 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setPopupTheme(R.style.ThemeOverlay_AppCompat_Light);
         setSupportActionBar(toolbar);
@@ -51,8 +50,15 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
                 .add(R.id.seekBar_container, new AudioSamplingSeekBarFragment(), AudioSamplingSeekBarFragment.TAG)
                 .commit();
 
+
         /*if(audioSamplingSeekBarFragment.isAdded()) {
             Toast.makeText(this, "!!!!!!!!!!", Toast.LENGTH_LONG).show();
         }*/
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 }
