@@ -1,41 +1,35 @@
 package com.danielkim.soundrecorder.fragments;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.danielkim.soundrecorder.MySharedPreferences;
 import com.danielkim.soundrecorder.R;
 
-import java.util.zip.Inflater;
-
 import static android.media.MediaRecorder.AudioEncoder.*;
 
 public class AudioSamplingSeekBarFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
-    public static final String STATE_FORMAT = "format";
     private final int DEFAULT_FORMAT = AAC;
     private int format;
     private int seekBarInitVal;
     SeekBar seekBar;
     TextView textProgress;
-    private int seekBarProgress;
+    private int samplingRate;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_audio_sampling_seekbar, container,false);
     }
+
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
@@ -64,7 +58,7 @@ public class AudioSamplingSeekBarFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                seekBarProgress = seekBar.getProgress();
+                samplingRate = seekBar.getProgress() + seekBarInitVal;
             }
         });
     }
@@ -72,13 +66,11 @@ public class AudioSamplingSeekBarFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        MySharedPreferences.setSamplingRate(getActivity(), seekBarProgress);
+        MySharedPreferences.setSamplingRate(getActivity(), samplingRate);
     }
 
     private void setAudioEncoder() {
-        if (getArguments() != null){
-            format = getArguments().getInt(STATE_FORMAT);
-        } else if (MySharedPreferences.getAudioEncoder(getActivity()) != null){
+        if (MySharedPreferences.getAudioEncoder(getActivity()) != null){
             format = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
         } else {
             format = DEFAULT_FORMAT;
@@ -111,14 +103,14 @@ public class AudioSamplingSeekBarFragment extends Fragment {
     }
 
     private void setSeekBarProgress() {
-        seekBarProgress = MySharedPreferences.getSamplingRate(getActivity());
-        if (format != AMR_NB || format != AMR_WB) {
-            if (seekBarProgress != -1) {
-                seekBar.setProgress(seekBarProgress);
-                textProgress.setText("" + seekBarProgress + " Hz");
-            } else {
-                textProgress.setText("" + seekBarInitVal + " Hz");
-            }
+        samplingRate = MySharedPreferences.getSamplingRate(getActivity());
+        if (format != AMR_NB && format != AMR_WB && samplingRate != -1) {
+            // тута
+                seekBar.setProgress(samplingRate - seekBarInitVal);
+                textProgress.setText("" + samplingRate + " Hz");
+        } else {
+            seekBar.setProgress(0);
+            textProgress.setText("" + seekBarInitVal + " Hz");
         }
     }
 }
