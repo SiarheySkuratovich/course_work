@@ -6,7 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.danielkim.soundrecorder.R;
-import com.danielkim.soundrecorder.fragments.AudioSamplingSeekBarFragment;
+import com.danielkim.soundrecorder.fragments.BitRateFragment;
+import com.danielkim.soundrecorder.fragments.SamplingRateFragment;
 import com.danielkim.soundrecorder.fragments.SettingsFragment;
 
 /**
@@ -36,8 +37,9 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
 
         getFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_seekBar_container, new AudioSamplingSeekBarFragment(), AudioSamplingSeekBarFragment.TAG)
+                .add(R.id.fragment_seekBar_container, new SamplingRateFragment(), SamplingRateFragment.TAG)
                 .commit();
+
 
 
     }

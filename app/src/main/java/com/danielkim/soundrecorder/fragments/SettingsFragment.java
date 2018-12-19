@@ -2,12 +2,14 @@ package com.danielkim.soundrecorder.fragments;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.danielkim.soundrecorder.BuildConfig;
 import com.danielkim.soundrecorder.MySharedPreferences;
@@ -55,22 +57,50 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
-                replaceSeekBar();
+                replaceSampleRateSeekBar();
+                if (isAMR((String) newValue)) {
+                    embadBitRateSeekBar();
+                } else {
+                    deleteBitRateSeekBar();
+                }
                 return true;
             }
         });
     }
 
-    public void replaceSeekBar() {
+    public void replaceSampleRateSeekBar() {
         try {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            if (manager.findFragmentByTag(AudioSamplingSeekBarFragment.TAG) != null) {
-                transaction.replace(R.id.fragment_seekBar_container, new AudioSamplingSeekBarFragment(), AudioSamplingSeekBarFragment.TAG);
-            }
+            transaction.replace(R.id.fragment_seekBar_container, new SamplingRateFragment(), SamplingRateFragment.TAG);
             transaction.commit();
         } catch (Exception e) {
             log.log(Level.SEVERE, "Exception: ", e);
+        }
+    }
+    
+    public void embadBitRateSeekBar() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (manager.findFragmentByTag(BitRateFragment.TAG) != null) {
+            transaction.remove(manager.findFragmentByTag(BitRateFragment.TAG));
+        }
+        transaction.add(R.id.fragment_bit_rate_container, new BitRateFragment(), BitRateFragment.TAG);
+        transaction.commit();
+
+    }
+    
+    private boolean isAMR(String format) {
+        int formatInt = Integer.parseInt(format);
+        return formatInt == MediaRecorder.AudioEncoder.AMR_NB || formatInt == MediaRecorder.AudioEncoder.AMR_WB;
+    }
+
+    private void deleteBitRateSeekBar() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (manager.findFragmentByTag(BitRateFragment.TAG) != null) {
+            transaction.remove(manager.findFragmentByTag(BitRateFragment.TAG));
+            transaction.commit();
         }
     }
 }

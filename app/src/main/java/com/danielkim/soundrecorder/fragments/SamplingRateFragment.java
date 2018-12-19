@@ -1,6 +1,7 @@
 package com.danielkim.soundrecorder.fragments;
 
 import android.app.Fragment;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import com.danielkim.soundrecorder.R;
 
 import static android.media.MediaRecorder.AudioEncoder.*;
 
-public class AudioSamplingSeekBarFragment extends Fragment {
+public class SamplingRateFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
     private final int DEFAULT_FORMAT = AAC;
     private int format;
