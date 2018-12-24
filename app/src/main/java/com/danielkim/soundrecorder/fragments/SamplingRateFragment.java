@@ -70,11 +70,7 @@ public class SamplingRateFragment extends Fragment {
     }
 
     private void setAudioEncoder() {
-        if (MySharedPreferences.getAudioEncoder(getActivity()) != null){
-            encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
-        } else {
-            encoder = DEFAULT_ENCODER;
-        }
+        encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
     }
 
     private void setSeekBarRange() {

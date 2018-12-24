@@ -53,6 +53,7 @@ public class SettingsFragment extends PreferenceFragment {
                     embadBitRateSeekBar();
                 } else {
                     deleteBitRateSeekBar();
+                    MySharedPreferences.setBitRate(getActivity(), -1);
                 }
                 return true;
             }

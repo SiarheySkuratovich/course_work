@@ -90,7 +90,10 @@ public class RecordingService extends Service {
 
                 //амр нб и вб с переменным битейтом, который я трогать не буду, а для остальный тоже можно сделать
             //полоску, диапазон посмотреть в википедии, если что, то андроид сам отсечёт если замного, так написано в документации
-        mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
+        mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
+        if (MySharedPreferences.getBitRate(this) != -1) {
+            mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
+        }
 
 
         try {
