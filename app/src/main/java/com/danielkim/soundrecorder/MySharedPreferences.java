@@ -9,23 +9,13 @@ import android.preference.PreferenceManager;
  */
 
 public class MySharedPreferences {
-    private static String PREF_HIGH_QUALITY = "pref_high_quality";
     private static String ENCODER = "encoder";
     private static String SAMPLING_RATE = "sampling_rate";
+    private static String BIT_RATE  = "bit_rate";
 
 
 
-    public static void setPrefHighQuality(Context context, boolean isEnabled) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(PREF_HIGH_QUALITY, isEnabled);
-        editor.apply();
-    }
 
-    public static boolean getPrefHighQuality(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getBoolean(PREF_HIGH_QUALITY, false);
-    }
 
     public static void setAudioEncoder(Context context, String usersChosenFormat) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -49,6 +39,18 @@ public class MySharedPreferences {
     public static int getSamplingRate(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getInt(SAMPLING_RATE, -1);
+    }
+
+    public static void setBitRate(Context context, int bitRate) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(BIT_RATE, bitRate);
+        editor.apply();
+    }
+
+    public static int getBitRate(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getInt(BIT_RATE, -1);
     }
 
 

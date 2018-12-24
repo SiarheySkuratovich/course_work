@@ -1,7 +1,6 @@
 package com.danielkim.soundrecorder.fragments;
 
 import android.app.Fragment;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,8 +17,8 @@ import static android.media.MediaRecorder.AudioEncoder.*;
 
 public class SamplingRateFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
-    private final int DEFAULT_FORMAT = AAC;
-    private int format;
+    private final int DEFAULT_ENCODER = AAC;
+    private int encoder;
     private int seekBarInitVal;
     SeekBar seekBar;
     TextView textProgress;
@@ -72,14 +71,14 @@ public class SamplingRateFragment extends Fragment {
 
     private void setAudioEncoder() {
         if (MySharedPreferences.getAudioEncoder(getActivity()) != null){
-            format = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
+            encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
         } else {
-            format = DEFAULT_FORMAT;
+            encoder = DEFAULT_ENCODER;
         }
     }
 
     private void setSeekBarRange() {
-        switch (format) {
+        switch (encoder) {
             case AAC:
                 seekBarInitVal = 8000;
                 seekBar.setMax(40000);
@@ -105,7 +104,7 @@ public class SamplingRateFragment extends Fragment {
 
     private void setSeekBarProgress() {
         samplingRate = MySharedPreferences.getSamplingRate(getActivity());
-        if (format != AMR_NB && format != AMR_WB && samplingRate != -1) {
+        if (encoder != AMR_NB && encoder != AMR_WB && samplingRate != -1) {
             // тута
                 seekBar.setProgress(samplingRate - seekBarInitVal);
                 textProgress.setText("" + samplingRate + " Hz");

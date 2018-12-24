@@ -30,15 +30,6 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        CheckBoxPreference highQualityPref = (CheckBoxPreference) findPreference(getResources().getString(R.string.pref_high_quality_key));
-        highQualityPref.setChecked(MySharedPreferences.getPrefHighQuality(getActivity()));
-        highQualityPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                MySharedPreferences.setPrefHighQuality(getActivity(), (boolean) newValue);
-                return true;
-            }
-        });
 
         Preference aboutPref = findPreference(getString(R.string.pref_about_key));
         aboutPref.setSummary(getString(R.string.pref_about_desc, BuildConfig.VERSION_NAME));
@@ -58,7 +49,7 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
                 replaceSampleRateSeekBar();
-                if (isAMR((String) newValue)) {
+                if (!isAMR((String) newValue)) {
                     embadBitRateSeekBar();
                 } else {
                     deleteBitRateSeekBar();
@@ -90,9 +81,9 @@ public class SettingsFragment extends PreferenceFragment {
 
     }
     
-    private boolean isAMR(String format) {
-        int formatInt = Integer.parseInt(format);
-        return formatInt == MediaRecorder.AudioEncoder.AMR_NB || formatInt == MediaRecorder.AudioEncoder.AMR_WB;
+    private boolean isAMR(String encoder) {
+        int encoderInt = Integer.parseInt(encoder);
+        return encoderInt == MediaRecorder.AudioEncoder.AMR_NB || encoderInt == MediaRecorder.AudioEncoder.AMR_WB;
     }
 
     private void deleteBitRateSeekBar() {

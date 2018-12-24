@@ -87,16 +87,11 @@ public class RecordingService extends Service {
         mRecorder.setAudioEncoder(Integer.parseInt(MySharedPreferences.getAudioEncoder(this)));
         mRecorder.setOutputFile(mFilePath);
         mRecorder.setAudioChannels(1);
-        if (
-                MySharedPreferences.getPrefHighQuality(this)) {
-                mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
-
-
 
                 //амр нб и вб с переменным битейтом, который я трогать не буду, а для остальный тоже можно сделать
             //полоску, диапазон посмотреть в википедии, если что, то андроид сам отсечёт если замного, так написано в документации
-            mRecorder.setAudioEncodingBitRate(192000);
-        }
+        mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
+
 
         try {
             mRecorder.prepare();
