@@ -84,6 +84,9 @@ public class RecordingService extends Service {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        if (MySharedPreferences.getAudioEncoder(this) == null) {
+            mRecorder.setAudioEncoder(ACC)
+        }
         mRecorder.setAudioEncoder(Integer.parseInt(MySharedPreferences.getAudioEncoder(this)));
         mRecorder.setOutputFile(mFilePath);
         mRecorder.setAudioChannels(1);

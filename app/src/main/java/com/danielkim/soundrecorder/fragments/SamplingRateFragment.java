@@ -17,6 +17,7 @@ import static android.media.MediaRecorder.AudioEncoder.*;
 
 public class SamplingRateFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
+    private final int DEFAULT_ENCODER = AAC;
     private int encoder;
     private int seekBarInitVal;
     SeekBar seekBar;
@@ -70,7 +71,11 @@ public class SamplingRateFragment extends Fragment {
     }
 
     private void setAudioEncoder() {
-        encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
+        if (MySharedPreferences.getAudioEncoder(getActivity()) != null){
+            encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(getActivity()));
+        } else {
+            encoder = DEFAULT_ENCODER;
+        }
     }
 
     private void setSeekBarRange() {
