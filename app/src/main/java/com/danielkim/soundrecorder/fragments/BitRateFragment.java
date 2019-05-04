@@ -40,7 +40,7 @@ public class BitRateFragment extends Fragment{
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 i += seekBarInitVal;
-                textProgress.setText("" + i + " Hz");
+                textProgress.setText("" + i + " bps");
             }
 
             @Override
