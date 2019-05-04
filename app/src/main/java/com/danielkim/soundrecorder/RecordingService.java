@@ -85,16 +85,24 @@ public class RecordingService extends Service {
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         if (MySharedPreferences.getAudioEncoder(this) == null) {
-            mRecorder.setAudioEncoder(ACC)
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        } else {
+            mRecorder.setAudioEncoder(Integer.parseInt(MySharedPreferences.getAudioEncoder(this)));
         }
-        mRecorder.setAudioEncoder(Integer.parseInt(MySharedPreferences.getAudioEncoder(this)));
+
         mRecorder.setOutputFile(mFilePath);
         mRecorder.setAudioChannels(1);
 
-                //амр нб и вб с переменным битейтом, который я трогать не буду, а для остальный тоже можно сделать
-            //полоску, диапазон посмотреть в википедии, если что, то андроид сам отсечёт если замного, так написано в документации
-        mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
-        if (MySharedPreferences.getBitRate(this) != -1) {
+        //амр нб и вб с переменным битейтом, который я трогать не буду, а для остальный тоже можно сделать
+        //полоску, диапазон посмотреть в википедии, если что, то андроид сам отсечёт если замного, так написано в документации
+        if (MySharedPreferences.getSamplingRate(this) == -1) {
+            mRecorder.setAudioSamplingRate(8000);
+        } else {
+            mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
+        }
+        if (MySharedPreferences.getBitRate(this) == -1) {
+            mRecorder.setAudioEncodingBitRate(8000);
+        } else {
             mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
         }
 
