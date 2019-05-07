@@ -43,7 +43,7 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
 
         getFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_seekBar_container, new SamplingRateFragment(), SamplingRateFragment.TAG)
+                .add(R.id.fragment_rarioGroup_container, new SamplingRateFragment(), SamplingRateFragment.TAG)
                 .commit();
 
 

@@ -6,22 +6,23 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.RadioGroup;
 
 
 import com.danielkim.soundrecorder.MySharedPreferences;
 import com.danielkim.soundrecorder.R;
 
+import java.util.MissingFormatArgumentException;
+
 import static android.media.MediaRecorder.AudioEncoder.*;
 
 public class SamplingRateFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
+    private static final int MAX = 48000;
     private final int DEFAULT_ENCODER = AAC;
     private int encoder;
-    private int seekBarInitVal;
-    SeekBar seekBar;
-    TextView textProgress;
+    private int MIN;
+    RadioGroup radioGroup;
     private int samplingRate;
 
 
@@ -37,29 +38,27 @@ public class SamplingRateFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setAudioEncoder();
-
-        seekBar = (SeekBar)view.findViewById(R.id.sample_rate_seek_bar);
-        textProgress = (TextView) view.findViewById(R.id.progress);
-
-        setSeekBarRange();
-        setSeekBarProgress();
+        radioGroup = (RadioGroup)view.findViewById(R.id.radioGroup);
 
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        setMinRate();
+
+        if (isAlreadyMax()) {
+            radioGroup.check(R.id.radioButtonTwo);
+        }
+
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                i += seekBarInitVal;
-                textProgress.setText("" + i + " Hz");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                samplingRate = seekBar.getProgress() + seekBarInitVal;
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radioButtonOne:
+                        samplingRate = MIN;
+                        break;
+                    case R.id.radioButtonTwo:
+                        samplingRate = MAX;
+                        break;
+                }
             }
         });
     }
@@ -78,39 +77,44 @@ public class SamplingRateFragment extends Fragment {
         }
     }
 
-    private void setSeekBarRange() {
+    private void setMinRate() {
         switch (encoder) {
             case AAC:
-                seekBarInitVal = 8000;
-                seekBar.setMax(40000);
+                MIN = 8000;
                 break;
             case AAC_ELD:
-                seekBarInitVal = 16000;
-                seekBar.setMax(32000);
+                MIN = 16000;
                 break;
             case AMR_NB:
-                seekBarInitVal = 8000;
-                seekBar.setEnabled(false);
+                MIN = 8000;
+                radioGroup.setEnabled(false);
                 break;
             case AMR_WB:
-                seekBarInitVal = 16000;
-                seekBar.setEnabled(false);
+                MIN = 16000;
+                radioGroup.setEnabled(false);
                 break;
             case HE_AAC:
-                seekBarInitVal = 8000;
-                seekBar.setMax(40000);
+                MIN = 8000;
                 break;
         }
     }
 
-    private void setSeekBarProgress() {
+    private boolean isAlreadyMax() {
+        if (MySharedPreferences.getSamplingRate(getActivity()) == MAX) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*private void setMax() {
         samplingRate = MySharedPreferences.getSamplingRate(getActivity());
-        if (encoder != AMR_NB && encoder != AMR_WB && samplingRate != -1) {
+        if (encoder != AMR_NB && encoder != AMR_WB) {
                 seekBar.setProgress(samplingRate - seekBarInitVal);
                 textProgress.setText("" + samplingRate + " Hz");
         } else {
             seekBar.setProgress(0);
             textProgress.setText("" + seekBarInitVal + " Hz");
         }
-    }
+    }*/
 }

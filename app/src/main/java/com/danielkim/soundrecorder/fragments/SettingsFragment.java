@@ -64,7 +64,7 @@ public class SettingsFragment extends PreferenceFragment {
         try {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_seekBar_container, new SamplingRateFragment(), SamplingRateFragment.TAG);
+            transaction.replace(R.id.fragment_rarioGroup_container, new SamplingRateFragment(), SamplingRateFragment.TAG);
             transaction.commit();
         } catch (Exception e) {
             log.log(Level.SEVERE, "Exception: ", e);
