@@ -4,11 +4,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.danielkim.soundrecorder.BuildConfig;
@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 public class SettingsFragment extends PreferenceFragment {
     private static Logger log = Logger.getLogger(SettingsFragment.class.getName());
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,8 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
-                replaceSampleRateSeekBar();
+                replaceSampleRateRadioGroup();
+
                 if (!isAMR((String) newValue)) {
                     embadBitRateSeekBar();
                 } else {
@@ -60,11 +62,11 @@ public class SettingsFragment extends PreferenceFragment {
         });
     }
 
-    public void replaceSampleRateSeekBar() {
+    public void replaceSampleRateRadioGroup() {
         try {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_rarioGroup_container, new SamplingRateFragment(), SamplingRateFragment.TAG);
+            transaction.replace(R.id.fragment_radioGroup_container, new SamplingRateFragment(), SamplingRateFragment.TAG);
             transaction.commit();
         } catch (Exception e) {
             log.log(Level.SEVERE, "Exception: ", e);

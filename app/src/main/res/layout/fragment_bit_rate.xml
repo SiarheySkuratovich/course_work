@@ -15,8 +15,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="14dp"
-        android:text="Set Audio Bit Rate"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:text="Set audio bit rate"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
     <SeekBar
         android:id="@+id/bit_rate_seek_bar"

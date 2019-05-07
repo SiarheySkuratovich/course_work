@@ -3,33 +3,36 @@ package com.danielkim.soundrecorder.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
 import com.danielkim.soundrecorder.MySharedPreferences;
 import com.danielkim.soundrecorder.R;
 
-import java.util.MissingFormatArgumentException;
-
 import static android.media.MediaRecorder.AudioEncoder.*;
 
 public class SamplingRateFragment extends Fragment {
     public static final String TAG = "SEEK_BAR_FRAGMENT_TAG";
+    private static final String TAG2 = "MyApp";
     private static final int MAX = 48000;
     private final int DEFAULT_ENCODER = AAC;
     private int encoder;
     private int MIN;
     RadioGroup radioGroup;
     private int samplingRate;
+    RadioButton radioButton1;
+    RadioButton radioButton2;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_audio_sampling_seekbar, container,false);
+        return inflater.inflate(R.layout.fragment_audio_sampling, container,false);
     }
 
 
@@ -39,13 +42,30 @@ public class SamplingRateFragment extends Fragment {
 
         setAudioEncoder();
         radioGroup = (RadioGroup)view.findViewById(R.id.radioGroup);
+        radioButton1 = (RadioButton)getView().findViewById(R.id.radioButtonOne);
+        radioButton2 = (RadioButton)getView().findViewById(R.id.radioButtonTwo);
 
 
         setMinRate();
 
-        if (isAlreadyMax()) {
+        if(isAMR()) {
+            radioGroup.check(R.id.radioButtonOne);
+            samplingRate = MIN;
+            radioButton2.setEnabled(false);
+        } else if (isAlreadyMax()) {
             radioGroup.check(R.id.radioButtonTwo);
+            samplingRate = MAX;
+        } else {
+            radioGroup.check(R.id.radioButtonOne);
+            samplingRate = MIN;
         }
+
+        /*if (isAlreadyMax() && !isAMR()) {
+            radioGroup.check(R.id.radioButtonTwo);
+            samplingRate = MAX;
+        } else {
+            radioGroup.check(R.id.radioButtonOne);
+        }*/
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -63,10 +83,12 @@ public class SamplingRateFragment extends Fragment {
         });
     }
 
+
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         MySharedPreferences.setSamplingRate(getActivity(), samplingRate);
+        Log.i(TAG2, Integer.toString(MySharedPreferences.getSamplingRate(getActivity())));
     }
 
     private void setAudioEncoder() {
@@ -87,24 +109,27 @@ public class SamplingRateFragment extends Fragment {
                 break;
             case AMR_NB:
                 MIN = 8000;
-                radioGroup.setEnabled(false);
+                radioGroup.check(R.id.radioButtonOne);
+                radioButton2.setEnabled(false);
                 break;
             case AMR_WB:
                 MIN = 16000;
-                radioGroup.setEnabled(false);
+                radioGroup.check(R.id.radioButtonOne);
+                radioButton2.setEnabled(false);
                 break;
             case HE_AAC:
                 MIN = 8000;
                 break;
         }
+        radioButton1.setText(MIN + " Hz");
     }
 
     private boolean isAlreadyMax() {
-        if (MySharedPreferences.getSamplingRate(getActivity()) == MAX) {
-            return true;
-        } else {
-            return false;
-        }
+        return (MySharedPreferences.getSamplingRate(getActivity()) == MAX);
+    }
+
+    private boolean isAMR() {
+       return (encoder == AMR_NB || encoder == AMR_WB);
     }
 
     /*private void setMax() {

@@ -43,7 +43,7 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
 
         getFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_rarioGroup_container, new SamplingRateFragment(), SamplingRateFragment.TAG)
+                .add(R.id.fragment_radioGroup_container, new SamplingRateFragment(), SamplingRateFragment.TAG)
                 .commit();
 
 
@@ -59,4 +59,5 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
         int encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(this));
         return encoder == MediaRecorder.AudioEncoder.AMR_NB || encoder == MediaRecorder.AudioEncoder.AMR_WB;
     }
+
 }
