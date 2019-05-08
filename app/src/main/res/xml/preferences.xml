@@ -9,6 +9,5 @@
         android:title="Set audio encoder"
         android:entries="@array/audio_encoder_entries"
         android:entryValues="@array/audio_encoder_entry_values"
-        android:defaultValue="3"
-        />
+        android:defaultValue="3"/>
 </PreferenceScreen>
