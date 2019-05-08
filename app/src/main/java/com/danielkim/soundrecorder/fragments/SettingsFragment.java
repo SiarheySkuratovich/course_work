@@ -48,10 +48,10 @@ public class SettingsFragment extends PreferenceFragment {
         outputFormatPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                MySharedPreferences.setAudioEncoder(getActivity(), (String) newValue);
+                MySharedPreferences.setAudioEncoder(getActivity(), (int) newValue);
                 replaceSampleRateRadioGroup();
 
-                if (!isAMR((String) newValue)) {
+                if (!isAMR((int) newValue)) {
                     embadBitRateSeekBar();
                 } else {
                     deleteBitRateSeekBar();
@@ -84,8 +84,8 @@ public class SettingsFragment extends PreferenceFragment {
 
     }
     
-    private boolean isAMR(String encoder) {
-        int encoderInt = Integer.parseInt(encoder);
+    private boolean isAMR(int encoder) {
+        int encoderInt = encoder;
         return encoderInt == MediaRecorder.AudioEncoder.AMR_NB || encoderInt == MediaRecorder.AudioEncoder.AMR_WB;
     }
 

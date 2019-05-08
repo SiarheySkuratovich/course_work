@@ -17,10 +17,10 @@ public class MySharedPreferences {
 
 
 
-    public static void setAudioEncoder(Context context, String usersChosenFormat) {
+    public static void setAudioEncoder(Context context, int usersChosenFormat) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(ENCODER, usersChosenFormat);
+        editor.putInt(ENCODER, usersChosenFormat);
         editor.apply();
     }
 

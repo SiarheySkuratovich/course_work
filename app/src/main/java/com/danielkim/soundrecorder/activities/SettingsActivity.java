@@ -32,7 +32,7 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
         }
 
         if(MySharedPreferences.getAudioEncoder(this) == null) {
-            MySharedPreferences.setAudioEncoder(this, String.valueOf(MediaRecorder.AudioEncoder.AAC));
+            MySharedPreferences.setAudioEncoder(this, MediaRecorder.AudioEncoder.AAC);
         }
 
         getFragmentManager()
