@@ -56,7 +56,7 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
     }
 
     private boolean isAMR() {
-        int encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(this));
+        int encoder = MySharedPreferences.getAudioEncoder(this);
         return encoder == MediaRecorder.AudioEncoder.AMR_NB || encoder == MediaRecorder.AudioEncoder.AMR_WB;
     }
 

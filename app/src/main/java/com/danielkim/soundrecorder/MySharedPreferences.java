@@ -24,9 +24,9 @@ public class MySharedPreferences {
         editor.apply();
     }
 
-    public static String getAudioEncoder(Context context) {
+    public static int getAudioEncoder(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(ENCODER, null);
+        return preferences.getInt(ENCODER, -1);
     }
 
     public static void setSamplingRate(Context context, int samplingRate) {

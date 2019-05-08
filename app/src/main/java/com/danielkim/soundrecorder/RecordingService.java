@@ -89,10 +89,10 @@ public class RecordingService extends Service {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        if (MySharedPreferences.getAudioEncoder(this) == null) {
+        if (MySharedPreferences.getAudioEncoder(this) == -1) {
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         } else {
-            mRecorder.setAudioEncoder(Integer.parseInt(MySharedPreferences.getAudioEncoder(this)));
+            mRecorder.setAudioEncoder(MySharedPreferences.getAudioEncoder(this));
         }
 
         mRecorder.setOutputFile(mFilePath);
@@ -106,7 +106,7 @@ public class RecordingService extends Service {
             mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
         }
         if (MySharedPreferences.getBitRate(this) == -1) {
-            /*if(isAMR())*/
+            if(isAMR())
             mRecorder.setAudioEncodingBitRate(8000);
         } else {
             mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
@@ -194,8 +194,8 @@ public class RecordingService extends Service {
         return mBuilder.build();
     }
 
-    /*private boolean isAMR() {
+    private boolean isAMR() {
         encoder = MySharedPreferences.getAudioEncoder(this);
         return (encoder == AMR_NB || encoder == AMR_WB);
-    }*/
+    }
 }
