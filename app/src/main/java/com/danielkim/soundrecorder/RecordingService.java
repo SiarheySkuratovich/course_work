@@ -25,6 +25,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.media.MediaRecorder.AudioEncoder.AMR_NB;
+import static android.media.MediaRecorder.AudioEncoder.AMR_WB;
+
 /**
  * Created by Daniel on 12/28/2014.
  */
@@ -100,12 +103,13 @@ public class RecordingService extends Service {
         } else {
             mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
         }
-        if (MySharedPreferences.getBitRate(this) == -1) {
-            mRecorder.setAudioEncodingBitRate(8000);
-        } else {
-            mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
+        if (!isAMR()) {
+            if (MySharedPreferences.getBitRate(this) == -1) {
+                mRecorder.setAudioEncodingBitRate(8000);
+            } else {
+                mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
+            }
         }
-
 
         try {
             mRecorder.prepare();
@@ -186,5 +190,10 @@ public class RecordingService extends Service {
                 new Intent[]{new Intent(getApplicationContext(), MainActivity.class)}, 0));
 
         return mBuilder.build();
+    }
+
+    private boolean isAMR() {
+        int encoder = Integer.parseInt(MySharedPreferences.getAudioEncoder(this));
+        return (encoder == AMR_NB || encoder == AMR_WB);
     }
 }
