@@ -31,7 +31,7 @@ public class SettingsActivity extends android.support.v7.app.ActionBarActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        if(MySharedPreferences.getAudioEncoder(this) == null) {
+        if(MySharedPreferences.getAudioEncoder(this) == -1) {
             MySharedPreferences.setAudioEncoder(this, MediaRecorder.AudioEncoder.AAC);
         }
 

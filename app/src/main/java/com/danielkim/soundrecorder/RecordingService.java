@@ -105,8 +105,7 @@ public class RecordingService extends Service {
         } else {
             mRecorder.setAudioSamplingRate(MySharedPreferences.getSamplingRate(this));
         }
-        if (MySharedPreferences.getBitRate(this) == -1) {
-            if(isAMR())
+        if (MySharedPreferences.getBitRate(this) == -1 && !isAMR()) {
             mRecorder.setAudioEncodingBitRate(8000);
         } else {
             mRecorder.setAudioEncodingBitRate(MySharedPreferences.getBitRate(this));
